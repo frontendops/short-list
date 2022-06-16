@@ -1,7 +1,4 @@
-.App {
-  text-align: center;
-}
-
+/* App color palette https://www.color-hex.com/color-palette/55334 */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,15 +10,19 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app-header {
+  background-color: 	#243447;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: right;
+  font-size: 1rem;
+  color: #ffffff;
+  padding: 1rem;
+}
+
+.app-nav > button {
+    margin-right: 1rem;
 }
 
 .App-link {

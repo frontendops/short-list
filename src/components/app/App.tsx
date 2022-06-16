@@ -3,16 +3,20 @@ import './App.css';
 import React from 'react';
 import Button from '@mui/material/Button';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        {/* Use react router to create pages */}
-        <Button>Log In</Button>
-        <Button>Sign Up</Button>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <div className="App">
+    <header className="app-header">
+      {/* Use react router to create pages */}
+      <nav className="app-nav">
+        <Button variant="contained" color="primary">
+          Log In
+        </Button>
+        <Button variant="contained" color="secondary">
+          Sign Up
+        </Button>
+      </nav>
+    </header>
+  </div>
+);
 
 export default App;
