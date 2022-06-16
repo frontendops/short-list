@@ -1,3 +1,4 @@
+import { Card, CardContent, Typography } from '@mui/material';
 import React from 'react';
 
 interface CardData {
@@ -16,7 +17,17 @@ interface Props {
 const CardList: React.FC<Props> = ({ data }) => (
   <div>
     {data.map((d) => (
-      <div key={d.id}>{d.title}</div>
+      <Card key={d.id}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            {d.category}
+          </Typography>
+          <Typography variant="h5" component="div">
+            {d.title}
+          </Typography>
+          <Typography variant="body2">{d.description}</Typography>
+        </CardContent>
+      </Card>
     ))}
   </div>
 );

@@ -2,6 +2,24 @@ import './App.css';
 
 import React from 'react';
 import Button from '@mui/material/Button';
+import CardList from '../base/CardList';
+
+const cardData = [
+  {
+    id: '1',
+    title: 'Pay rent',
+    description: 'Gotta keep a roof over my head',
+    category: 'Finance',
+    daysUntil: 15,
+  },
+  {
+    id: '2',
+    title: 'Study french',
+    description: 'Achete moi une baguette elle est bien cuite',
+    category: 'Study',
+    daysUntil: 1,
+  },
+];
 
 const App: React.FC = () => (
   <div className="App">
@@ -16,6 +34,9 @@ const App: React.FC = () => (
         </Button>
       </nav>
     </header>
+    <main>
+      <CardList data={cardData} />
+    </main>
   </div>
 );
 
