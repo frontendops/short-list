@@ -1,42 +1,19 @@
 import './App.css';
 
 import React from 'react';
-import Button from '@mui/material/Button';
-import CardList from '../base/CardList';
-
-const cardData = [
-  {
-    id: '1',
-    title: 'Pay rent',
-    description: 'Gotta keep a roof over my head',
-    category: 'Finance',
-    daysUntil: 15,
-  },
-  {
-    id: '2',
-    title: 'Study french',
-    description: 'Achete moi une baguette elle est bien cuite',
-    category: 'Study',
-    daysUntil: 1,
-  },
-];
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import DisplayPage from '../pages/displayPage/DisplayPage';
+import Layout from './Layout';
 
 const App: React.FC = () => (
   <div className="App">
-    <header className="app-header">
-      {/* Use react router to create pages */}
-      <nav className="app-nav">
-        <Button variant="contained" color="primary">
-          Log In
-        </Button>
-        <Button variant="contained" color="secondary">
-          Sign Up
-        </Button>
-      </nav>
-    </header>
-    <main>
-      <CardList data={cardData} />
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<DisplayPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </div>
 );
 
