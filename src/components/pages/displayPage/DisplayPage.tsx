@@ -1,6 +1,7 @@
 import React from 'react';
 // import CardList from '../../base/CardList';
 import ItineraryForm from '../../base/ItineraryForm';
+import ItineraryLocationDisplay from '../../base/ItineraryLocationsDisplay';
 import './DisplayPageStyle.css';
 
 // const cardData = [
@@ -30,9 +31,16 @@ import './DisplayPageStyle.css';
 //   daysUntil?: number;
 // }
 
+const locations = [
+  { name: 'Dublin, IE', visited: true },
+  { name: 'Paris, FR', visited: false },
+  { name: 'Frankfurt, DE', visited: false },
+];
+
 const DisplayPage: React.FC = () => (
   <div className="display-page-container">
     {/* <CardList data={cardData} /> */}
+    <ItineraryLocationDisplay locations={locations} />
     <ItineraryForm
       onFormSubmit={() => {
         console.log('submit the form');
