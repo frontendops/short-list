@@ -1,7 +1,8 @@
 import React from 'react';
 // import CardList from '../../base/CardList';
-import ItineraryForm from '../../base/ItineraryForm';
+// import ItineraryForm from '../../base/ItineraryForm';
 import ItineraryLocationDisplay from '../../base/ItineraryLocationsDisplay';
+import ItineraryMap from '../../base/ItineraryMap';
 import './DisplayPageStyle.css';
 
 // const cardData = [
@@ -41,11 +42,12 @@ const DisplayPage: React.FC = () => (
   <div className="display-page-container">
     {/* <CardList data={cardData} /> */}
     <ItineraryLocationDisplay locations={locations} />
-    <ItineraryForm
+    <ItineraryMap />
+    {/* <ItineraryForm
       onFormSubmit={() => {
         console.log('submit the form');
       }}
-    />
+    /> */}
   </div>
 );
 
