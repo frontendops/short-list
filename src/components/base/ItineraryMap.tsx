@@ -21,6 +21,7 @@ const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
     autoCompleteDelay: 800,
     provider: new OpenStreetMapProvider(),
     style: 'bar',
+    showPopup: true,
     resultFormat: (res: SearchResponse) => {
       onSearch(res);
       return res.result.label;
@@ -39,7 +40,6 @@ const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
 
 const ItineraryMap: React.FC = () => {
   const [searchResults, setSearchResults] = useState({});
-  console.log('react component data');
   console.log(searchResults);
   return (
     <MapContainer
