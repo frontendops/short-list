@@ -1,6 +1,13 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
-import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+/* eslint-disable no-unused-vars */
+import React, { SetStateAction, useEffect, useRef, useState } from 'react';
+import { EsriProvider, GeoSearchControl } from 'leaflet-geosearch';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+// @ts-ignore - no typedefs available
+import { geosearch } from 'esri-leaflet-geocoder/src/Controls/Geosearch';
+import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
+// @ts-ignore - no typdefs available
+import { arcgisOnlineProvider } from 'esri-leaflet-geocoder/src/Providers/ArcgisOnlineGeocoder';
+import apikeydonotcommit from '../../apikey';
 
 interface SearchResults {
   label: String;
@@ -14,32 +21,60 @@ interface SearchControlProps {
   onSearch: (res: SearchResponse) => SetStateAction<typeof res>;
 }
 
-const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
-  // @ts-ignore
-  const search = new GeoSearchControl({
-    autoComplete: true,
-    autoCompleteDelay: 800,
-    provider: new OpenStreetMapProvider(),
-    style: 'bar',
-    showPopup: true,
-    resultFormat: (res: SearchResponse) => {
-      onSearch(res);
-      return res.result.label;
-    },
-  });
+// const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
+//   const provider = new EsriProvider({
+//     params: {
+//       //   'findAddressCandidates?': 'Starbucks',
+//       token: API_KEY_DO_NOT_COMMIT,
+//     },
+//   });
 
+//   console.log(provider.getUrl('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&'));
+//   // @ts-ignore
+//   const search = new GeoSearchControl({
+//     autoComplete: true,
+//     autoCompleteDelay: 800,
+//     provider,
+//     style: 'bar',
+//     showPopup: true,
+//     resultFormat: (res: SearchResponse) => {
+//       onSearch(res);
+//       return res.result.label;
+//     },
+//   });
+
+//   const map = useMap();
+
+//   // @ts-ignore
+//   useEffect(() => {
+//     map.addControl(search);
+//     return () => map.removeControl(search);
+//   }, []);
+//   return null;
+// };
+
+const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
   const map = useMap();
 
   // @ts-ignore
   useEffect(() => {
-    map.addControl(search);
-    return () => map.removeControl(search);
+    const searchConrol = geosearch({
+      providers: [
+        arcgisOnlineProvider({
+          apikey: apikeydonotcommit,
+        }),
+      ],
+    });
+    map.addControl(searchConrol);
+    return () => map.removeControl(searchConrol);
   }, []);
   return null;
 };
 
 const ItineraryMap: React.FC = () => {
   const [searchResults, setSearchResults] = useState({});
+  // @ts-ignore
+
   console.log(searchResults);
   return (
     <MapContainer
