@@ -55,17 +55,24 @@ interface SearchControlProps {
 
 const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
   const map = useMap();
-
+  console.log('searching');
   // @ts-ignore
   useEffect(() => {
     const searchConrol = geosearch({
+      //  useMapBounds: false use this to search globally (when picking cities)
+      placeholder: 'Search for a place or address',
+      position: 'topright',
+      expanded: true,
       providers: [
         arcgisOnlineProvider({
           apikey: apikeydonotcommit,
+          maxResults: 15,
         }),
       ],
     });
+    searchConrol.on('results', onSearch);
     map.addControl(searchConrol);
+
     return () => map.removeControl(searchConrol);
   }, []);
   return null;
@@ -73,7 +80,15 @@ const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
 
 const ItineraryMap: React.FC = () => {
   const [searchResults, setSearchResults] = useState({});
-  // @ts-ignore
+  const [markers, setMarkers] = useState([[48.864716, 2.349014]]);
+  const handleSearchResults = (results: []) => {
+    console.log(results);
+    setMarkers((prevState) => [
+      ...prevState,
+      // @ts-ignore
+      [results.latlng.lat, results.latlng.lng],
+    ]);
+  };
 
   console.log(searchResults);
   return (
@@ -85,16 +100,15 @@ const ItineraryMap: React.FC = () => {
     >
       {/* define correct props */}
       {/* @ts-ignore */}
-      <SearchControl onSearch={setSearchResults} />
+      <SearchControl onSearch={handleSearchResults} />
       <TileLayer
         attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png"
       />
-      <Marker position={[48.864716, 2.349014]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      {markers.map((marker) => (
+        // @ts-ignore
+        <Marker key={marker[0]} position={marker} />
+      ))}
     </MapContainer>
   );
 };
