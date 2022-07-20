@@ -8,6 +8,12 @@ import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 // @ts-ignore - no typdefs available
 import { arcgisOnlineProvider } from 'esri-leaflet-geocoder/src/Providers/ArcgisOnlineGeocoder';
 import apikeydonotcommit from '../../apikey';
+import { LocationResult } from '../../globalInterfaces';
+
+interface SearchResult {
+  latlng: number[];
+  results: LocationResult[];
+}
 
 interface SearchResults {
   label: String;
@@ -21,41 +27,8 @@ interface SearchControlProps {
   onSearch: (res: SearchResponse) => SetStateAction<typeof res>;
 }
 
-// const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
-//   const provider = new EsriProvider({
-//     params: {
-//       //   'findAddressCandidates?': 'Starbucks',
-//       token: API_KEY_DO_NOT_COMMIT,
-//     },
-//   });
-
-//   console.log(provider.getUrl('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=pjson&'));
-//   // @ts-ignore
-//   const search = new GeoSearchControl({
-//     autoComplete: true,
-//     autoCompleteDelay: 800,
-//     provider,
-//     style: 'bar',
-//     showPopup: true,
-//     resultFormat: (res: SearchResponse) => {
-//       onSearch(res);
-//       return res.result.label;
-//     },
-//   });
-
-//   const map = useMap();
-
-//   // @ts-ignore
-//   useEffect(() => {
-//     map.addControl(search);
-//     return () => map.removeControl(search);
-//   }, []);
-//   return null;
-// };
-
 const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
   const map = useMap();
-  console.log('searching');
   // @ts-ignore
   useEffect(() => {
     const searchConrol = geosearch({
@@ -80,14 +53,22 @@ const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
 
 const ItineraryMap: React.FC = () => {
   const [searchResults, setSearchResults] = useState({});
-  const [markers, setMarkers] = useState([[48.864716, 2.349014]]);
-  const handleSearchResults = (results: []) => {
-    console.log(results);
-    setMarkers((prevState) => [
-      ...prevState,
-      // @ts-ignore
-      [results.latlng.lat, results.latlng.lng],
-    ]);
+  const [markers, setMarkers] = useState([
+    { id: '1', latlng: [48.864716, 2.349014] },
+  ]);
+  const handleSearchResults = (res: SearchResult) => {
+    const resultsList = res.results;
+    if (resultsList.length) {
+      resultsList.forEach((result: LocationResult) => {
+        setMarkers((prevState) => [
+          ...prevState,
+          {
+            id: `${result.latlng.lat}${result.properties.LongLabel}`,
+            latlng: [result.latlng.lat, result.latlng.lng],
+          },
+        ]);
+      });
+    }
   };
 
   console.log(searchResults);
@@ -98,7 +79,6 @@ const ItineraryMap: React.FC = () => {
       style={{ height: '350px', width: '100%' }}
       zoom={10}
     >
-      {/* define correct props */}
       {/* @ts-ignore */}
       <SearchControl onSearch={handleSearchResults} />
       <TileLayer
@@ -106,8 +86,9 @@ const ItineraryMap: React.FC = () => {
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png"
       />
       {markers.map((marker) => (
+        // pass data into
         // @ts-ignore
-        <Marker key={marker[0]} position={marker} />
+        <Marker key={marker.id} position={marker.latlng} />
       ))}
     </MapContainer>
   );
