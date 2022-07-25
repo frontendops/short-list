@@ -78,21 +78,26 @@ const locations = [
   { name: 'Frankfurt, DE', visited: false },
 ];
 
-const DisplayPage: React.FC = () => (
-  <div className="display-page-container">
-    {/* <CardList data={cardData} /> */}
-    <ItineraryLocationDisplay locations={locations} />
-    <ItineraryMap />
-    <Typography variant="h4" component="h3" align="center" margin="2rem">
-      Activities
-    </Typography>
-    <CardList data={cardData} />
-    {/* <ItineraryForm
-      onFormSubmit={() => {
-        console.log('submit the form');
-      }}
-    /> */}
-  </div>
-);
+const DisplayPage: React.FC = () => {
+  const saveLocation = (marker: object) => {
+    console.log(marker);
+  };
+  return (
+    <div className="display-page-container">
+      {/* <CardList data={cardData} /> */}
+      <ItineraryLocationDisplay locations={locations} />
+      <ItineraryMap onLocationAdd={saveLocation} />
+      <Typography variant="h4" component="h3" align="center" margin="2rem">
+        Activities
+      </Typography>
+      <CardList data={cardData} />
+      {/* <ItineraryForm
+            onFormSubmit={() => {
+              console.log('submit the form');
+            }}
+          /> */}
+    </div>
+  );
+};
 
 export default DisplayPage;

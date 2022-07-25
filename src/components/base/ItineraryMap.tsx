@@ -1,7 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import { EsriProvider, GeoSearchControl } from 'leaflet-geosearch';
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import {
+  LayersControl,
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+} from 'react-leaflet';
 // @ts-ignore - no typedefs available
 import { geosearch } from 'esri-leaflet-geocoder/src/Controls/Geosearch';
 import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
@@ -31,9 +38,25 @@ interface MarkerData {
   saved: boolean;
 }
 
+interface ItineraryMapProps {
+  onLocationAdd: (marker: MarkerData) => void;
+}
+
 interface SearchControlProps {
   onSearch: (res: SearchResponse) => SetStateAction<typeof res>;
 }
+
+interface ClearControlProps {
+  position: string;
+  onClear: () => void;
+}
+
+const POSITION_CLASSES: object = {
+  bottomleft: 'leaflet-bottom leaflet-left',
+  bottomright: 'leaflet-bottom leaflet-right',
+  topleft: 'leaflet-top leaflet-left',
+  topright: 'leaflet-top leaflet-right',
+};
 
 const copyAddr = (addr: string) => {
   navigator.clipboard.writeText(addr);
@@ -63,7 +86,22 @@ const SearchControl: React.FC<SearchControlProps> = ({ onSearch }) => {
   return null;
 };
 
-const ItineraryMap: React.FC = () => {
+const ClearControl: React.FC<ClearControlProps> = ({ position, onClear }) => {
+  const positionClass =
+    // @ts-ignore
+    (position && POSITION_CLASSES[position]) || POSITION_CLASSES.topright;
+  return (
+    <div className={positionClass}>
+      <div className="leaflet-control leaflet-bar">
+        <button type="button" onClick={onClear}>
+          Clear
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ItineraryMap: React.FC<ItineraryMapProps> = ({ onLocationAdd }) => {
   const [searchResults, setSearchResults] = useState({});
   const [markers, setMarkers] = useState<MarkerData[]>([
     // @ts-ignore
@@ -76,7 +114,6 @@ const ItineraryMap: React.FC = () => {
     const resultsList = res.results;
     if (resultsList.length) {
       resultsList.forEach((result: LocationResult) => {
-        console.log(result);
         setMarkers((prevState) => [
           ...prevState,
           {
@@ -90,15 +127,19 @@ const ItineraryMap: React.FC = () => {
     }
   };
 
-  const saveMarker = (id: string) => {
-    setMarkers((prevState) =>
-      prevState.map((marker) =>
-        marker.id === id ? { ...marker, saved: true } : marker
-      )
-    );
+  const handleClear = () => {
+    setMarkers((prevState) => prevState.filter((marker) => marker.saved));
   };
 
-  console.log(searchResults);
+  const saveMarker = (marker: MarkerData) => {
+    setMarkers((prevState) =>
+      prevState.map((_marker) =>
+        _marker.id === marker.id ? { ...marker, saved: true } : marker
+      )
+    );
+    onLocationAdd(marker);
+  };
+
   return (
     <MapContainer
       center={[48.864716, 2.349014]}
@@ -112,6 +153,12 @@ const ItineraryMap: React.FC = () => {
         attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png"
       />
+      {/* @ts-ignore */}
+      {Boolean(markers.filter((marker) => !marker.saved).length) && (
+        <ClearControl position="bottomright" onClear={handleClear} />
+      )}
+
+      <Button>Clear</Button>
       {markers.map((marker: MarkerData) => (
         // pass data into
         <Marker
@@ -138,7 +185,7 @@ const ItineraryMap: React.FC = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => saveMarker(marker.id)}
+                onClick={() => saveMarker(marker)}
               >
                 Save Location
               </Button>
