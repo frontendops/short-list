@@ -75,3 +75,19 @@ export interface LocationResult {
   latlng: SouthWest;
   properties: Properties;
 }
+
+export interface CardData {
+  category?: string;
+  date?: Date; // completion date,
+  daysUntil?: number;
+  description?: string;
+  id: string;
+  imgUrl?: string;
+  title: string;
+  timeUntil?: number; // this could be in miliseconds then converted to hours/ minutes
+}
+
+export interface LocationData {
+  name: string;
+  visited: boolean;
+}

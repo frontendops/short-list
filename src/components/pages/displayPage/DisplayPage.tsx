@@ -1,23 +1,12 @@
 import { Typography } from '@mui/material';
 import React from 'react';
+import { CardData, LocationData } from '../../../globalInterfaces';
 import CardList from '../../base/CardList';
 // import CardList from '../../base/CardList';
 // import ItineraryForm from '../../base/ItineraryForm';
 import ItineraryLocationDisplay from '../../base/ItineraryLocationsDisplay';
 import ItineraryMap from '../../base/ItineraryMap';
 import './DisplayPageStyle.css';
-
-// create shared interface
-interface CardData {
-  category?: string;
-  date?: Date; // completion date,
-  daysUntil?: number;
-  description?: string;
-  id: string;
-  imgUrl?: string;
-  title: string;
-  timeUntil?: number; // this could be in miliseconds then converted to hours/ minutes
-}
 
 const cardData: CardData[] = [
   {
@@ -72,7 +61,7 @@ const cardData: CardData[] = [
   },
 ];
 
-const locations = [
+const locations: LocationData[] = [
   { name: 'Dublin, IE', visited: true },
   { name: 'Paris, FR', visited: false },
   { name: 'Frankfurt, DE', visited: false },
