@@ -1,12 +1,22 @@
 import { Typography } from '@mui/material';
-import React from 'react';
-import { CardData, MarkerData, LocationData } from '../../../globalInterfaces';
+import React, { useState } from 'react';
+import {
+  CardData,
+  MarkerData,
+  LocationData,
+  LocationResult,
+} from '../../../globalInterfaces';
 import CardList from '../../base/CardList';
 // import CardList from '../../base/CardList';
 // import ItineraryForm from '../../base/ItineraryForm';
 import ItineraryLocationDisplay from '../../base/ItineraryLocationsDisplay';
 import ItineraryMap from '../../base/ItineraryMap';
 import './DisplayPageStyle.css';
+
+interface SearchResult {
+  latlng: number[];
+  results: LocationResult[];
+}
 
 const cardData: CardData[] = [
   {
@@ -64,18 +74,63 @@ const cardData: CardData[] = [
 const locations: LocationData[] = [
   { name: 'Dublin, IE', visited: true },
   { name: 'Paris, FR', visited: false },
+  { name: 'Strasbourg, FR', visited: false },
   { name: 'Frankfurt, DE', visited: false },
+  { name: 'Zurich, ST', visited: false },
 ];
 
 const DisplayPage: React.FC = () => {
+  const [markers, setMarkers] = useState<MarkerData[]>([
+    // @ts-ignore
+    { id: '1', latlng: [48.864716, 2.349014], data: {}, saved: true },
+  ]);
   const saveLocation = (marker: MarkerData) => {
     console.log(marker);
+  };
+
+  const handleClear = () => {
+    setMarkers((prevState) => prevState.filter((marker) => marker.saved));
+  };
+
+  const saveMarker = (marker: MarkerData) => {
+    console.log(markers);
+    setMarkers((prevState) =>
+      prevState.map((_marker) =>
+        _marker.id === marker.id ? { ...marker, saved: true } : _marker
+      )
+    );
+    saveLocation(marker);
+  };
+
+  const handleSearchResults = (res: SearchResult) => {
+    // reset markers in the display
+    // leave the ones that are selected
+    setMarkers((prevState) => prevState.filter((marker) => marker.saved));
+    const resultsList = res.results;
+    if (resultsList.length) {
+      resultsList.forEach((result: LocationResult) => {
+        setMarkers((prevState) => [
+          ...prevState,
+          {
+            id: `${result.latlng.lat}${result.properties.LongLabel}`,
+            latlng: [result.latlng.lat, result.latlng.lng],
+            data: result,
+            saved: false,
+          },
+        ]);
+      });
+    }
   };
   return (
     <div className="display-page-container">
       {/* <CardList data={cardData} /> */}
       <ItineraryLocationDisplay locations={locations} />
-      <ItineraryMap onLocationAdd={saveLocation} />
+      <ItineraryMap
+        markers={markers}
+        onSearchResults={handleSearchResults}
+        onClear={handleClear}
+        onSaveMarker={saveMarker}
+      />
       <Typography variant="h4" component="h3" align="center" margin="2rem">
         Activities
       </Typography>

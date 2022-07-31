@@ -18,11 +18,6 @@ import { Button, CardContent, Typography } from '@mui/material';
 import apikeydonotcommit from '../../apikey';
 import { LocationResult, MarkerData } from '../../globalInterfaces';
 
-interface SearchResult {
-  latlng: number[];
-  results: LocationResult[];
-}
-
 interface SearchResults {
   label: String;
 }
@@ -32,7 +27,10 @@ interface SearchResponse {
 }
 
 interface ItineraryMapProps {
-  onLocationAdd: (marker: MarkerData) => void;
+  markers: MarkerData[];
+  onSearchResults: Function;
+  onClear: () => void;
+  onSaveMarker: Function;
 }
 
 interface SearchControlProps {
@@ -94,44 +92,14 @@ const ClearControl: React.FC<ClearControlProps> = ({ position, onClear }) => {
   );
 };
 
-const ItineraryMap: React.FC<ItineraryMapProps> = ({ onLocationAdd }) => {
+const ItineraryMap: React.FC<ItineraryMapProps> = ({
+  markers,
+  onSearchResults,
+  onClear,
+  onSaveMarker,
+}) => {
+  console.log(markers);
   const [searchResults, setSearchResults] = useState({});
-  const [markers, setMarkers] = useState<MarkerData[]>([
-    // @ts-ignore
-    { id: '1', latlng: [48.864716, 2.349014], data: {}, saved: true },
-  ]);
-  const handleSearchResults = (res: SearchResult) => {
-    // reset markers in the display
-    // leave the ones that are selected
-    setMarkers((prevState) => prevState.filter((marker) => marker.saved));
-    const resultsList = res.results;
-    if (resultsList.length) {
-      resultsList.forEach((result: LocationResult) => {
-        setMarkers((prevState) => [
-          ...prevState,
-          {
-            id: `${result.latlng.lat}${result.properties.LongLabel}`,
-            latlng: [result.latlng.lat, result.latlng.lng],
-            data: result,
-            saved: false,
-          },
-        ]);
-      });
-    }
-  };
-
-  const handleClear = () => {
-    setMarkers((prevState) => prevState.filter((marker) => marker.saved));
-  };
-
-  const saveMarker = (marker: MarkerData) => {
-    setMarkers((prevState) =>
-      prevState.map((_marker) =>
-        _marker.id === marker.id ? { ...marker, saved: true } : marker
-      )
-    );
-    onLocationAdd(marker);
-  };
 
   return (
     <MapContainer
@@ -141,14 +109,14 @@ const ItineraryMap: React.FC<ItineraryMapProps> = ({ onLocationAdd }) => {
       zoom={10}
     >
       {/* @ts-ignore */}
-      <SearchControl onSearch={handleSearchResults} />
+      <SearchControl onSearch={onSearchResults} />
       <TileLayer
         attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png"
       />
       {/* @ts-ignore */}
       {Boolean(markers.filter((marker) => !marker.saved).length) && (
-        <ClearControl position="bottomright" onClear={handleClear} />
+        <ClearControl position="bottomright" onClear={onClear} />
       )}
 
       <Button>Clear</Button>
@@ -178,7 +146,7 @@ const ItineraryMap: React.FC<ItineraryMapProps> = ({ onLocationAdd }) => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => saveMarker(marker)}
+                onClick={() => onSaveMarker(marker)}
               >
                 Save Location
               </Button>
