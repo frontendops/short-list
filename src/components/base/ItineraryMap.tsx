@@ -16,7 +16,7 @@ import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 import { arcgisOnlineProvider } from 'esri-leaflet-geocoder/src/Providers/ArcgisOnlineGeocoder';
 import { Button, CardContent, Typography } from '@mui/material';
 import apikeydonotcommit from '../../apikey';
-import { LocationResult } from '../../globalInterfaces';
+import { LocationResult, MarkerData } from '../../globalInterfaces';
 
 interface SearchResult {
   latlng: number[];
@@ -29,13 +29,6 @@ interface SearchResults {
 
 interface SearchResponse {
   result: SearchResults;
-}
-
-interface MarkerData {
-  id: string;
-  latlng: [number, number];
-  data: LocationResult;
-  saved: boolean;
 }
 
 interface ItineraryMapProps {

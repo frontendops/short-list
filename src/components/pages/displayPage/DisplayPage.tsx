@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import React from 'react';
+import { MarkerData } from '../../../globalInterfaces';
 import CardList from '../../base/CardList';
 // import CardList from '../../base/CardList';
 // import ItineraryForm from '../../base/ItineraryForm';
@@ -79,7 +80,7 @@ const locations = [
 ];
 
 const DisplayPage: React.FC = () => {
-  const saveLocation = (marker: object) => {
+  const saveLocation = (marker: MarkerData) => {
     console.log(marker);
   };
   return (

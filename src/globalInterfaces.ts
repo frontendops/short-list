@@ -75,3 +75,10 @@ export interface LocationResult {
   latlng: SouthWest;
   properties: Properties;
 }
+
+export interface MarkerData {
+  id: string;
+  latlng: [number, number];
+  data: LocationResult;
+  saved: boolean;
+}
