@@ -68,6 +68,12 @@ interface Bounds {
   _northEast: SouthWest;
 }
 
+export interface FormState {
+  city: '';
+  arrivalDate: '';
+  departureDate: '';
+}
+
 export interface LocationResult {
   text: string;
   bounds: Bounds;

@@ -1,27 +1,29 @@
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import { FormState } from '../../globalInterfaces';
 
 interface Props {
   formValues?: Object;
-  onSubmit?: () => {};
+  // eslint-disable-next-line no-unused-vars
+  onSubmit: (formState: FormState) => void;
 }
 
 // eslint-disable-next-line no-unused-vars
 const DestinationForm: React.FC<Props> = ({ formValues, onSubmit }) => {
-  // @ts-ignore
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormState>({
     city: '',
     arrivalDate: '',
     departureDate: '',
   });
 
-  // @ts-ignore
-  const handleChange = (e, key) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    key: string
+  ) => {
     const val = e.target.value;
-    // @ts-ignore
-
     setFormState((prevState) => ({ ...prevState, [key]: val }));
   };
+
   return (
     <div>
       <form>
@@ -49,7 +51,7 @@ const DestinationForm: React.FC<Props> = ({ formValues, onSubmit }) => {
           onChange={(e) => handleChange(e, 'departureDate')}
           placeholder="Please enter departure date (need react datepicker compoenent)"
         />
-        <Button variant="contained" onClick={() => console.log(formState)}>
+        <Button variant="contained" onClick={() => onSubmit(formState)}>
           Submit
         </Button>
       </form>
@@ -59,7 +61,6 @@ const DestinationForm: React.FC<Props> = ({ formValues, onSubmit }) => {
 
 DestinationForm.defaultProps = {
   formValues: {},
-  onSubmit: () => ({}),
 };
 
 export default DestinationForm;
