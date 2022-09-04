@@ -88,6 +88,7 @@ export interface MarkerData {
   data: LocationResult;
   saved: boolean;
 }
+
 export interface CardData {
   category?: string;
   date?: Date; // completion date,

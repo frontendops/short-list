@@ -1,15 +1,14 @@
 import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { FormState } from '../../globalInterfaces';
+import AutocompleteCity from './AutocompleteCity';
 
 interface Props {
-  formValues?: Object;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (formState: FormState) => void;
 }
 
-// eslint-disable-next-line no-unused-vars
-const DestinationForm: React.FC<Props> = ({ formValues, onSubmit }) => {
+const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
   const [formState, setFormState] = useState<FormState>({
     city: '',
     arrivalDate: '',
@@ -17,24 +16,25 @@ const DestinationForm: React.FC<Props> = ({ formValues, onSubmit }) => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string,
     key: string
   ) => {
-    const val = e.target.value;
+    const val = typeof e === 'string' ? e : e.target.value;
     setFormState((prevState) => ({ ...prevState, [key]: val }));
   };
 
   return (
     <div>
       <form>
-        <TextField
+        <AutocompleteCity onSelect={(place) => handleChange(place, 'city')} />
+        {/* <TextField
           id="city"
           label="city"
           variant="standard"
           value={formState.city}
           onChange={(e) => handleChange(e, 'city')}
           placeholder="Please enter city"
-        />
+        /> */}
         <TextField
           id="dates-arrival"
           label="Arrival Date"
@@ -59,8 +59,6 @@ const DestinationForm: React.FC<Props> = ({ formValues, onSubmit }) => {
   );
 };
 
-DestinationForm.defaultProps = {
-  formValues: {},
-};
+DestinationForm.defaultProps = {};
 
 export default DestinationForm;
