@@ -69,7 +69,7 @@ interface Bounds {
 }
 
 export interface FormState {
-  city: '';
+  city: object;
   arrivalDate: '';
   departureDate: '';
 }
@@ -103,4 +103,14 @@ export interface CardData {
 export interface LocationData {
   name: string;
   visited: boolean;
+}
+
+interface Suggestion {
+  text: string;
+  magicKey: string;
+  isCollection: boolean;
+}
+
+export interface SuggestionRes {
+  suggestions: Suggestion[];
 }

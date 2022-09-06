@@ -10,31 +10,25 @@ interface Props {
 
 const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
   const [formState, setFormState] = useState<FormState>({
-    city: '',
+    city: {},
     arrivalDate: '',
     departureDate: '',
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | string,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | object,
     key: string
   ) => {
-    const val = typeof e === 'string' ? e : e.target.value;
+    // @ts-ignore
+    const val = key === 'city' ? e : e.target.value;
     setFormState((prevState) => ({ ...prevState, [key]: val }));
+    console.log(formState);
   };
 
   return (
     <div>
       <form>
         <AutocompleteCity onSelect={(place) => handleChange(place, 'city')} />
-        {/* <TextField
-          id="city"
-          label="city"
-          variant="standard"
-          value={formState.city}
-          onChange={(e) => handleChange(e, 'city')}
-          placeholder="Please enter city"
-        /> */}
         <TextField
           id="dates-arrival"
           label="Arrival Date"
