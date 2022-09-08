@@ -26,10 +26,7 @@ const AutocompleteCity: React.FC<Props> = ({ onSelect }) => {
         const url =
           'https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?';
         const res = await fetch(
-          `${url}text=${inputVal}&category=Populated Place&f=json&token=${apikey}`,
-          {
-            //   mode: 'no-cors',
-          }
+          `${url}text=${inputVal}&category=Populated Place&f=json&token=${apikey}`
         );
         const json: SuggestionRes = await res.json();
         console.log(json);

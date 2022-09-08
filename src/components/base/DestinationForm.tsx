@@ -10,7 +10,11 @@ interface Props {
 
 const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
   const [formState, setFormState] = useState<FormState>({
-    city: {},
+    city: {
+      text: '',
+      magicKey: '',
+      isCollection: true,
+    },
     arrivalDate: '',
     departureDate: '',
   });
@@ -22,7 +26,6 @@ const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
     // @ts-ignore
     const val = key === 'city' ? e : e.target.value;
     setFormState((prevState) => ({ ...prevState, [key]: val }));
-    console.log(formState);
   };
 
   return (

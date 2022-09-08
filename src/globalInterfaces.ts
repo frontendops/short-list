@@ -68,12 +68,6 @@ interface Bounds {
   _northEast: SouthWest;
 }
 
-export interface FormState {
-  city: object;
-  arrivalDate: '';
-  departureDate: '';
-}
-
 export interface LocationResult {
   text: string;
   bounds: Bounds;
@@ -113,4 +107,42 @@ interface Suggestion {
 
 export interface SuggestionRes {
   suggestions: Suggestion[];
+}
+
+export interface FormState {
+  city: Suggestion;
+  arrivalDate: '';
+  departureDate: '';
+}
+
+export interface Attributes {}
+
+export interface Extent {
+  xmin: number;
+  ymin: number;
+  xmax: number;
+  ymax: number;
+}
+
+export interface Location {
+  x: number;
+  y: number;
+}
+
+export interface SpatialReference {
+  wkid: number;
+  latestWkid: number;
+}
+
+export interface Candidate {
+  address: string;
+  location: Location;
+  score: number;
+  attributes: Attributes;
+  extent: Extent;
+}
+
+export interface CityResult {
+  spatialReference: SpatialReference;
+  candidates: Candidate[];
 }

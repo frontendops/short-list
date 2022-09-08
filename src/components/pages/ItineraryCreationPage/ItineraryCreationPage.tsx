@@ -1,12 +1,45 @@
 import { Typography } from '@mui/material';
 import React from 'react';
-import { FormState } from '../../../globalInterfaces';
+import apikey from '../../../apikey';
+import { CityResult, FormState } from '../../../globalInterfaces';
 import DestinationForm from '../../base/DestinationForm';
 
+interface CityData {
+  address: string;
+  lat: number;
+  long: number;
+}
+
+interface LocationData {
+  city: CityData;
+  arrivalDate: string;
+  departureDate: string;
+}
+
 const ItineraryCreationPage: React.FC = () => {
-  const handleSubmit = (formState: FormState) => {
+  const handleSubmit = async (formState: FormState) => {
     // push data to display page
     console.log(formState);
+    const url =
+      'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?';
+    const res = await fetch(
+      `${url}SingleLine=${formState.city.text}&magicKey=${formState.city.magicKey}&f=json&token=${apikey}`
+    );
+
+    const json: CityResult = await res.json();
+    console.log('this is the city data');
+
+    const locationData: LocationData = {
+      city: {
+        address: json.candidates[0].address,
+        lat: json.candidates[0].location.x,
+        long: json.candidates[0].location.y,
+      },
+      arrivalDate: formState.arrivalDate,
+      departureDate: formState.departureDate,
+    };
+
+    console.log(locationData);
   };
 
   return (
