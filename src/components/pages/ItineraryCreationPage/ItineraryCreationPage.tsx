@@ -40,6 +40,7 @@ const ItineraryCreationPage: React.FC = () => {
     };
 
     console.log(locationData);
+    // get date picker component
   };
 
   return (
