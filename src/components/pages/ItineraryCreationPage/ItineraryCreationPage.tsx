@@ -1,8 +1,10 @@
 import { Typography } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import apikey from '../../../apikey';
 import { CityResult, FormState } from '../../../globalInterfaces';
 import DestinationForm from '../../base/DestinationForm';
+// import { useHistory } from 'react-router-dom'
 
 interface CityData {
   address: string;
@@ -17,6 +19,7 @@ interface LocationData {
 }
 
 const ItineraryCreationPage: React.FC = () => {
+  const navigate = useNavigate();
   const handleSubmit = async (formState: FormState) => {
     // push data to display page
     console.log(formState);
@@ -40,7 +43,13 @@ const ItineraryCreationPage: React.FC = () => {
     };
 
     console.log(locationData);
+
     // get date picker component
+    navigate('/', {
+      state: {
+        locationData,
+      },
+    });
   };
 
   return (

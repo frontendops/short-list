@@ -50,7 +50,7 @@ const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
           selected={endDate}
           onChange={(date: Date) => {
             setEndDate(date);
-            handleChange(date, 'arrivalDate');
+            handleChange(date, 'departureDate');
           }}
         />
         {/* <TextField

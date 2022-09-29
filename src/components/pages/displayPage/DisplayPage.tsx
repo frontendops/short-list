@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   CardData,
   MarkerData,
@@ -80,6 +81,10 @@ const locations: LocationData[] = [
 ];
 
 const DisplayPage: React.FC = () => {
+  const location = useLocation();
+  console.log(location);
+  // if location state, grab it, send to api , display it, then clear it
+
   const [markers, setMarkers] = useState<MarkerData[]>([
     // @ts-ignore
     { id: '1', latlng: [48.864716, 2.349014], data: {}, saved: true },
