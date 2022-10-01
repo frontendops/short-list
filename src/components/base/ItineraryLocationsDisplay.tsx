@@ -1,17 +1,14 @@
 import { Box, Step, StepLabel, Stepper } from '@mui/material';
 import React, { useState } from 'react';
-
-interface Location {
-  name: string;
-  visited: boolean;
-}
+import { LocationData } from '../../globalInterfaces';
 
 // define on submit arguments
 interface Props {
-  locations: Location[];
+  locations: LocationData[];
 }
 
 const ItineraryLocationDisplay: React.FC<Props> = ({ locations }) => {
+  console.log(locations);
   // eslint-disable-next-line no-unused-vars
   const [activeStep, setActiveStep] = useState(0);
   return (
@@ -26,8 +23,8 @@ const ItineraryLocationDisplay: React.FC<Props> = ({ locations }) => {
           const stepProps: { completed?: boolean } = { completed: loc.visited };
 
           return (
-            <Step key={loc.name} completed={stepProps.completed}>
-              <StepLabel>{loc.name}</StepLabel>
+            <Step key={loc.city.address} completed={stepProps.completed}>
+              <StepLabel>{loc.city.address}</StepLabel>
             </Step>
           );
         })}

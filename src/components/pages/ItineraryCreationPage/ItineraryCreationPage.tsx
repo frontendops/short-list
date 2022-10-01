@@ -2,21 +2,9 @@ import { Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import apikey from '../../../apikey';
-import { CityResult, FormState } from '../../../globalInterfaces';
+import { CityResult, FormState, LocationData } from '../../../globalInterfaces';
 import DestinationForm from '../../base/DestinationForm';
 // import { useHistory } from 'react-router-dom'
-
-interface CityData {
-  address: string;
-  lat: number;
-  long: number;
-}
-
-interface LocationData {
-  city: CityData;
-  arrivalDate: string;
-  departureDate: string;
-}
 
 const ItineraryCreationPage: React.FC = () => {
   const navigate = useNavigate();
@@ -39,7 +27,7 @@ const ItineraryCreationPage: React.FC = () => {
         long: json.candidates[0].location.y,
       },
       arrivalDate: formState.arrivalDate,
-      departureDate: formState.departureDate,
+      visited: false,
     };
 
     console.log(locationData);

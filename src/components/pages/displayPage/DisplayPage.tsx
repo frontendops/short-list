@@ -73,11 +73,24 @@ const cardData: CardData[] = [
 ];
 
 const locations: LocationData[] = [
-  { name: 'Dublin, IE', visited: true },
-  { name: 'Paris, FR', visited: false },
-  { name: 'Strasbourg, FR', visited: false },
-  { name: 'Frankfurt, DE', visited: false },
-  { name: 'Zurich, ST', visited: false },
+  {
+    city: {
+      address: 'Dublin, IE',
+      lat: 123,
+      long: 123,
+    },
+    arrivalDate: '',
+    visited: true,
+  },
+  {
+    city: {
+      address: 'Paris, FR',
+      lat: 456,
+      long: 456,
+    },
+    arrivalDate: '',
+    visited: false,
+  },
 ];
 
 const DisplayPage: React.FC = () => {
@@ -85,6 +98,8 @@ const DisplayPage: React.FC = () => {
   console.log(location);
   // if location state, grab it, send to api , display it, then clear it
 
+  // eslint-disable-next-line no-unused-vars
+  const [locationsData, setLocationsData] = useState<LocationData[]>(locations);
   const [markers, setMarkers] = useState<MarkerData[]>([
     // @ts-ignore
     { id: '1', latlng: [48.864716, 2.349014], data: {}, saved: true },
@@ -93,6 +108,22 @@ const DisplayPage: React.FC = () => {
     console.log(marker);
   };
 
+  // @ts-ignore
+  if (
+    !locationsData
+      .map((l) => l.city.address)
+      // @ts-ignore
+
+      .includes(location.state?.locationData?.city?.address)
+  ) {
+    console.log('saving location');
+    // save the latest location in state
+    setLocationsData((prevLocations) => [
+      ...prevLocations,
+      // @ts-ignore
+      location.state?.locationData,
+    ]);
+  }
   const handleClear = () => {
     setMarkers((prevState) => prevState.filter((marker) => marker.saved));
   };
@@ -129,7 +160,7 @@ const DisplayPage: React.FC = () => {
   return (
     <div className="display-page-container">
       {/* <CardList data={cardData} /> */}
-      <ItineraryLocationDisplay locations={locations} />
+      <ItineraryLocationDisplay locations={locationsData} />
       <ItineraryMap
         markers={markers}
         onSearchResults={handleSearchResults}

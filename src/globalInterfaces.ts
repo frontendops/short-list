@@ -94,8 +94,15 @@ export interface CardData {
   timeUntil?: number; // this could be in miliseconds then converted to hours/ minutes
 }
 
+interface CityData {
+  address: string;
+  lat: number;
+  long: number;
+}
+
 export interface LocationData {
-  name: string;
+  city: CityData;
+  arrivalDate: string;
   visited: boolean;
 }
 
