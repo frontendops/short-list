@@ -3,3 +3,21 @@
     margin-top: 2rem;
     max-width: 900px;
 }
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+}
+
+.section-heading h3 {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: bold;
+    color: #1A2332;
+}
+
+i {
+    margin-left: 8px;
+}

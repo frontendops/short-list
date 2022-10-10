@@ -1,6 +1,7 @@
 import { Box, Step, StepLabel, Stepper } from '@mui/material';
 import React, { useState } from 'react';
 import { LocationData } from '../../globalInterfaces';
+import './ItineraryLocationsDisplay.css';
 
 // define on submit arguments
 interface Props {

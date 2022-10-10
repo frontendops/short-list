@@ -17,6 +17,7 @@ import { arcgisOnlineProvider } from 'esri-leaflet-geocoder/src/Providers/Arcgis
 import { Button, CardContent, Typography } from '@mui/material';
 import apikeydonotcommit from '../../apikey';
 import { LocationResult, MarkerData } from '../../globalInterfaces';
+import './ItineraryMap.css';
 
 interface SearchResults {
   label: String;
@@ -102,68 +103,70 @@ const ItineraryMap: React.FC<ItineraryMapProps> = ({
   const [searchResults, setSearchResults] = useState({});
 
   return (
-    <MapContainer
-      center={[48.864716, 2.349014]}
-      scrollWheelZoom={false}
-      style={{ height: '350px', width: '100%' }}
-      zoom={10}
-    >
-      {/* @ts-ignore */}
-      <SearchControl onSearch={onSearchResults} />
-      <TileLayer
-        attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png"
-      />
-      {/* @ts-ignore */}
-      {Boolean(markers.filter((marker) => !marker.saved).length) && (
-        <ClearControl position="bottomright" onClear={onClear} />
-      )}
+    <div className="map-card">
+      <MapContainer
+        center={[48.864716, 2.349014]}
+        scrollWheelZoom={false}
+        style={{ height: '350px', width: '100%' }}
+        zoom={10}
+      >
+        {/* @ts-ignore */}
+        <SearchControl onSearch={onSearchResults} />
+        <TileLayer
+          attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png"
+        />
+        {/* @ts-ignore */}
+        {Boolean(markers.filter((marker) => !marker.saved).length) && (
+          <ClearControl position="bottomright" onClear={onClear} />
+        )}
 
-      <Button>Clear</Button>
-      {markers.map((marker: MarkerData) => (
-        // pass data into
-        <Marker
-          key={marker.id}
-          position={marker.latlng}
-          opacity={marker.saved ? 1 : 0.7}
-        >
-          <Popup>
-            <CardContent>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {marker?.data?.properties?.Type || 'Category'}
-              </Typography>
-              <Typography variant="h5" component="div">
-                {marker?.data?.text || 'title'}
-              </Typography>
+        <Button>Clear</Button>
+        {markers.map((marker: MarkerData) => (
+          // pass data into
+          <Marker
+            key={marker.id}
+            position={marker.latlng}
+            opacity={marker.saved ? 1 : 0.7}
+          >
+            <Popup>
+              <CardContent>
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  {marker?.data?.properties?.Type || 'Category'}
+                </Typography>
+                <Typography variant="h5" component="div">
+                  {marker?.data?.text || 'title'}
+                </Typography>
 
-              <Typography variant="body2">
-                {marker?.data?.properties?.Place_addr || 'Address'}
-              </Typography>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => onSaveMarker(marker)}
-              >
-                Save Location
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() =>
-                  copyAddr(marker?.data?.properties?.LongLabel || 'addr')
-                }
-              >
-                Copy Address
-              </Button>
-            </CardContent>
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
+                <Typography variant="body2">
+                  {marker?.data?.properties?.Place_addr || 'Address'}
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => onSaveMarker(marker)}
+                >
+                  Save Location
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    copyAddr(marker?.data?.properties?.LongLabel || 'addr')
+                  }
+                >
+                  Copy Address
+                </Button>
+              </CardContent>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
   );
 };
 //   </div>/

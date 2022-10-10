@@ -1,0 +1,12 @@
+.leaflet-container {
+    width: 100%;
+}
+
+.map-card {
+    margin-top: 1.5rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+    overflow: hidden;
+    text-align: center;
+}

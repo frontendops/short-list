@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
@@ -111,10 +111,11 @@ const DisplayPage: React.FC = () => {
   // @ts-ignore
   if (
     !locationsData
-      .map((l) => l.city.address)
+      .map((l) => l?.city?.address)
       // @ts-ignore
-
-      .includes(location.state?.locationData?.city?.address)
+      .includes(location.state?.locationData?.city?.address) &&
+    // @ts-ignore
+    location.state?.locationData !== undefined
   ) {
     console.log('saving location');
     // save the latest location in state
@@ -167,10 +168,25 @@ const DisplayPage: React.FC = () => {
         onClear={handleClear}
         onSaveMarker={saveMarker}
       />
-      <Typography variant="h4" component="h3" align="center" margin="2rem">
-        Activities
-      </Typography>
+      <div className="section-heading">
+        <Typography variant="h4" component="h3" align="center" margin="2rem">
+          Activities
+        </Typography>
+        <Button variant="text" color="secondary">
+          Add more <i className="fa fa-long-arrow-right" aria-hidden="true" />
+        </Button>
+      </div>
+
       <CardList data={cardData} />
+
+      <div className="section-heading">
+        <Typography variant="h4" component="h3" align="center" margin="2rem">
+          Completed activities
+        </Typography>
+        <Button variant="text" color="secondary">
+          See all <i className="fa fa-long-arrow-right" aria-hidden="true" />
+        </Button>
+      </div>
       {/* <ItineraryForm
             onFormSubmit={() => {
               console.log('submit the form');
