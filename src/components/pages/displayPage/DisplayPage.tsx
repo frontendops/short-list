@@ -104,8 +104,21 @@ const DisplayPage: React.FC = () => {
     // @ts-ignore
     { id: '1', latlng: [48.864716, 2.349014], data: {}, saved: true },
   ]);
+  const [todoCards, setTodoCards] = useState<CardData[]>(cardData);
   const saveLocation = (marker: MarkerData) => {
     console.log(marker);
+    setTodoCards((prevCards) => [
+      ...prevCards,
+      {
+        id: marker.id,
+        title: marker.data.properties.ShortLabel,
+        description: '', // find by id and let user set description
+        category: marker.data.properties.Type,
+        timeUntil: 0, // let user select date and time to calculate this value
+        daysUntil: 0, // delte this
+        imgUrl: '', // let users get image from unsplash api
+      },
+    ]);
   };
 
   // @ts-ignore
@@ -177,7 +190,7 @@ const DisplayPage: React.FC = () => {
         </Button>
       </div>
 
-      <CardList data={cardData} />
+      <CardList data={todoCards} />
 
       <div className="section-heading">
         <Typography variant="h4" component="h3" align="center" margin="2rem">
