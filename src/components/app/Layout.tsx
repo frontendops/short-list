@@ -9,7 +9,7 @@ const Layout: React.FC = () => (
       {/* Use react router to create pages */}
       <nav className="app-nav">
         <div className="app-user">
-          <h2 className="app-user-heading">Welcome, Alex</h2>
+          <h2 className="app-heading">Welcome, Alex</h2>
           <span>
             <i className="fa fa-map-marker fa-xs" aria-hidden="true" />
             <h2 className="app-user-location">Greenville, SC</h2>

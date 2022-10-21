@@ -11,9 +11,6 @@ interface Props {
 
 const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
   const [startDate, setStartDate] = useState(new Date());
-  const tomorrow = new Date(startDate);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  const [endDate, setEndDate] = useState(tomorrow);
   const [formState, setFormState] = useState<FormState>({
     city: {
       text: '',
@@ -34,7 +31,7 @@ const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <div className="destination-form-container">
       <form>
         <AutocompleteCity onSelect={(place) => handleChange(place, 'city')} />
         <DatePicker
@@ -45,34 +42,11 @@ const DestinationForm: React.FC<Props> = ({ onSubmit }) => {
             handleChange(date, 'arrivalDate');
           }}
         />
-        <DatePicker
-          id="end-date"
-          selected={endDate}
-          onChange={(date: Date) => {
-            setEndDate(date);
-            handleChange(date, 'departureDate');
-          }}
-        />
-        {/* <TextField
-          id="dates-arrival"
-          label="Arrival Date"
-          variant="standard"
-          value={formState.arrivalDate}
-          onChange={(e) => handleChange(e, 'arrivalDate')}
-          placeholder="Please enter arrival date (need react datepicker compoenent)"
-        />
-
-        <TextField
-          id="dates-departure"
-          label="Departure Date"
-          variant="standard"
-          value={formState.departureDate}
-          onChange={(e) => handleChange(e, 'departureDate')}
-          placeholder="Please enter departure date (need react datepicker compoenent)"
-        /> */}
-        <Button variant="contained" onClick={() => onSubmit(formState)}>
-          Submit
-        </Button>
+        <div className="submit-container">
+          <Button variant="contained" onClick={() => onSubmit(formState)}>
+            Submit
+          </Button>
+        </div>
       </form>
     </div>
   );

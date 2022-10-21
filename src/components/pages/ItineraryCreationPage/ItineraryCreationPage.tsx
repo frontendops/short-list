@@ -1,16 +1,14 @@
-import { Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import apikey from '../../../apikey';
+import './ItineraryCreationPageStyles.css';
 import { CityResult, FormState, LocationData } from '../../../globalInterfaces';
+import apikey from '../../../apikey';
 import DestinationForm from '../../base/DestinationForm';
-// import { useHistory } from 'react-router-dom'
 
 const ItineraryCreationPage: React.FC = () => {
   const navigate = useNavigate();
   const handleSubmit = async (formState: FormState) => {
     // push data to display page
-    console.log(formState);
     const url =
       'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?';
     const res = await fetch(
@@ -42,10 +40,7 @@ const ItineraryCreationPage: React.FC = () => {
 
   return (
     <div className="itinerary-creation-page-container">
-      <Typography variant="h2" gutterBottom>
-        Enter Destination Details
-      </Typography>
-
+      <h2 className="app-heading">Enter Destination Details</h2>
       <DestinationForm onSubmit={handleSubmit} />
     </div>
   );

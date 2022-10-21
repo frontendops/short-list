@@ -1,6 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   CardData,
   MarkerData,
@@ -8,8 +8,6 @@ import {
   LocationResult,
 } from '../../../globalInterfaces';
 import CardList from '../../base/CardList';
-// import CardList from '../../base/CardList';
-// import ItineraryForm from '../../base/ItineraryForm';
 import ItineraryLocationDisplay from '../../base/ItineraryLocationsDisplay';
 import ItineraryMap from '../../base/ItineraryMap';
 import './DisplayPageStyle.css';
@@ -95,6 +93,8 @@ const locations: LocationData[] = [
 
 const DisplayPage: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
   console.log(location);
   // if location state, grab it, send to api , display it, then clear it
 
@@ -185,7 +185,11 @@ const DisplayPage: React.FC = () => {
         <Typography variant="h4" component="h3" align="center" margin="2rem">
           Activities
         </Typography>
-        <Button variant="text" color="secondary">
+        <Button
+          variant="text"
+          color="secondary"
+          onClick={() => navigate('/new')}
+        >
           Add more <i className="fa fa-long-arrow-right" aria-hidden="true" />
         </Button>
       </div>
