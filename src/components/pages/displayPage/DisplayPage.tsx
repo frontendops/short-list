@@ -1,6 +1,13 @@
-import { Button, Typography } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+// import { photosKey } from '../../../apikey';
 import {
   CardData,
   MarkerData,
@@ -11,6 +18,18 @@ import CardList from '../../base/CardList';
 import ItineraryLocationDisplay from '../../base/ItineraryLocationsDisplay';
 import ItineraryMap from '../../base/ItineraryMap';
 import './DisplayPageStyle.css';
+
+const dialogStyle = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 interface SearchResult {
   latlng: number[];
@@ -100,6 +119,7 @@ const DisplayPage: React.FC = () => {
 
   // eslint-disable-next-line no-unused-vars
   const [locationsData, setLocationsData] = useState<LocationData[]>(locations);
+  const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
   const [markers, setMarkers] = useState<MarkerData[]>([
     // @ts-ignore
     { id: '1', latlng: [48.864716, 2.349014], data: {}, saved: true },
@@ -140,6 +160,21 @@ const DisplayPage: React.FC = () => {
   }
   const handleClear = () => {
     setMarkers((prevState) => prevState.filter((marker) => marker.saved));
+  };
+
+  const handleOnEdit = () => {
+    setShowEditDialog(true);
+  };
+
+  const handleThumbnailSearch = async (e: { target: { value: any } }) => {
+    const inputVal = e.target.value;
+    console.log(inputVal);
+    // const url = 'https://api.unsplash.com/';
+    // const res = await fetch(
+    //   `${url}search/photos/?client_id=${photosKey}&page=1&query=${inputVal}`
+    // );
+    // const photos = await res.json();
+    // console.log(photos);
   };
 
   const saveMarker = (marker: MarkerData) => {
@@ -194,7 +229,7 @@ const DisplayPage: React.FC = () => {
         </Button>
       </div>
 
-      <CardList data={todoCards} />
+      <CardList data={todoCards} onEdit={handleOnEdit} />
 
       <div className="section-heading">
         <Typography variant="h4" component="h3" align="center" margin="2rem">
@@ -209,6 +244,21 @@ const DisplayPage: React.FC = () => {
               console.log('submit the form');
             }}
           /> */}
+      <Dialog
+        // @ts-ignore
+        onClose={() => setShowEditDialog(false)}
+        open={showEditDialog}
+        sx={dialogStyle}
+      >
+        <DialogTitle>Select thumbnail image</DialogTitle>
+        <TextField
+          id="thumbnail-search"
+          label="Search for Image"
+          variant="outlined"
+          placeholder="Cafe..."
+          onChange={(e: any) => handleThumbnailSearch(e)}
+        />
+      </Dialog>
     </div>
   );
 };

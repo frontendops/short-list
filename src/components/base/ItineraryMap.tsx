@@ -15,7 +15,7 @@ import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 // @ts-ignore - no typdefs available
 import { arcgisOnlineProvider } from 'esri-leaflet-geocoder/src/Providers/ArcgisOnlineGeocoder';
 import { Button, CardContent, Typography } from '@mui/material';
-import apikeydonotcommit from '../../apikey';
+import { mapKey as apikeydonotcommit } from '../../apikey';
 import { LocationResult, MarkerData } from '../../globalInterfaces';
 import './ItineraryMap.css';
 

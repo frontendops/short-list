@@ -1,7 +1,7 @@
 import { Autocomplete, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import debounce from 'lodash.debounce';
-import apikey from '../../apikey';
+import { mapKey } from '../../apikey';
 import { SuggestionRes } from '../../globalInterfaces';
 
 interface Props {
@@ -26,7 +26,7 @@ const AutocompleteCity: React.FC<Props> = ({ onSelect }) => {
         const url =
           'https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest?';
         const res = await fetch(
-          `${url}text=${inputVal}&category=Populated Place&f=json&token=${apikey}`
+          `${url}text=${inputVal}&category=Populated Place&f=json&token=${mapKey}`
         );
         const json: SuggestionRes = await res.json();
         console.log(json);

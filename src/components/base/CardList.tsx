@@ -1,5 +1,11 @@
 import './CardListStyle.css';
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from '@mui/material';
 import React from 'react';
 
 // create shared interface
@@ -15,9 +21,10 @@ interface CardData {
 
 interface Props {
   data: CardData[];
+  onEdit: Function;
 }
 
-const CardList: React.FC<Props> = ({ data }) => (
+const CardList: React.FC<Props> = ({ data, onEdit }) => (
   <div className="card-list-container">
     {data.map((d) => (
       <Card
@@ -42,6 +49,8 @@ const CardList: React.FC<Props> = ({ data }) => (
           </Typography>
 
           <Typography variant="body2">{d.description}</Typography>
+          {/* @ts-ignore */}
+          <Button onClick={onEdit}>Edit</Button>
         </CardContent>
       </Card>
     ))}

@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ItineraryCreationPageStyles.css';
 import { CityResult, FormState, LocationData } from '../../../globalInterfaces';
-import apikey from '../../../apikey';
+import { mapKey } from '../../../apikey';
 import DestinationForm from '../../base/DestinationForm';
 
 const ItineraryCreationPage: React.FC = () => {
@@ -12,7 +12,7 @@ const ItineraryCreationPage: React.FC = () => {
     const url =
       'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?';
     const res = await fetch(
-      `${url}SingleLine=${formState.city.text}&magicKey=${formState.city.magicKey}&f=json&token=${apikey}`
+      `${url}SingleLine=${formState.city.text}&magicKey=${formState.city.magicKey}&f=json&token=${mapKey}`
     );
 
     const json: CityResult = await res.json();
