@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import { photosKey } from '../../../apikey';
+import { photosKey } from '../../../apikey';
 import {
   CardData,
   MarkerData,
@@ -169,12 +169,12 @@ const DisplayPage: React.FC = () => {
   const handleThumbnailSearch = async (e: { target: { value: any } }) => {
     const inputVal = e.target.value;
     console.log(inputVal);
-    // const url = 'https://api.unsplash.com/';
-    // const res = await fetch(
-    //   `${url}search/photos/?client_id=${photosKey}&page=1&query=${inputVal}`
-    // );
-    // const photos = await res.json();
-    // console.log(photos);
+    const url = 'https://api.unsplash.com/';
+    const res = await fetch(
+      `${url}search/photos/?client_id=${photosKey}&page=1&query=${inputVal}`
+    );
+    const photos = await res.json();
+    console.log(photos);
   };
 
   const saveMarker = (marker: MarkerData) => {
